@@ -90,6 +90,8 @@ Resources:
           Value: Udacity
         - Key: Environment
           Value: sandbox
+        - Key: test
+          Value: testkey
 
 Outputs:
 
