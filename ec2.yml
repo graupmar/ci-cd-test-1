@@ -61,6 +61,54 @@ Resources:
         - Key: Environment
           Value: sandbox
 
+   InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} InternetGateway
+        - Key: createdBy
+          Value: Marco Graupmann
+        - Key: Project
+          Value: Udacity
+        - Key: Environment
+          Value: sandbox
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+ #We also need routing tables - here for public
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Routes
+        - Key: createdBy
+          Value: Marco Graupmann
+        - Key: Project
+          Value: Udacity
+        - Key: Environment
+          Value: sandbox
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+
   EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
