@@ -1,0 +1,99 @@
+Description: >
+  Marco Graupmann - stupid ec2 env
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  VpcCIDR:
+    Description: Please enter the IP range (CIDR notation) for this VPC
+    Type: String
+
+  PublicSubnet1CIDR:
+    Description: Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone
+    Type: String
+
+  ec2AMI:
+    Description: Which AMI we want to use
+    Type: String
+
+  InstType:
+    Description: Which Instance Type  we want to use
+    Type: String
+
+Resources:
+  #setup vpc
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-vpc
+        - Key: createdBy
+          Value: Marco Graupmann
+        - Key: Project
+          Value: Udacity
+        - Key: Environment
+          Value: sandbox
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: !Ref PublicSubnet1CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+        - Key: createdBy
+          Value: Marco Graupmann
+        - Key: Project
+          Value: Udacity
+        - Key: Environment
+          Value: sandbox
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh from public
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ec2AMI
+      InstanceType: !Ref InstType
+      KeyName: test-ec2
+      SubnetId: !Ref PublicSubnet1
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-CICDInstance'
+        - Key: createdBy
+          Value: Marco Graupmann
+        - Key: Project
+          Value: Udacity
+        - Key: Environment
+          Value: sandbox
+
+Outputs:
+
+  VPC:
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+    Export:
+      Name: !Sub "${AWS::StackName}-VPCID"
+
+  CICDInstancePublicIp:
+    Description: 'CICDInstance Public IP'
+    Value: !Sub ${EC2Instance.PublicIp}

@@ -1,0 +1,22 @@
+[
+    {
+        "ParameterKey": "EnvironmentName",
+        "ParameterValue": "ci-cd-test-env"
+    },
+    {
+        "ParameterKey": "VpcCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "PublicSubnet1CIDR",
+        "ParameterValue": "10.0.0.0/24"
+    },
+    {
+        "ParameterKey": "ec2AMI",
+        "ParameterValue": "ami-0b1deee75235aa4bb"
+    },
+    {
+        "ParameterKey": "InstType",
+        "ParameterValue": "t2.micro"
+    }
+]
