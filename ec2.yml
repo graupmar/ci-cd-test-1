@@ -61,7 +61,7 @@ Resources:
         - Key: Environment
           Value: sandbox
 
-   InternetGateway:
+  InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
