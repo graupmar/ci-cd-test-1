@@ -11,7 +11,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file ec2.yml \
-              --parameters-file ec2-para.json \
+              ----parameter-overrides ec2-para.json \
               --stack-name ci-cd-test-1
 workflows:
   my_workflow:
