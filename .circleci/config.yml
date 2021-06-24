@@ -70,4 +70,6 @@ workflows:
       - test_ip:
           requires:
             - get_ip_adr
-      #- configure_infrastructure
+      - configure_infrastructure:
+          requires:
+            - test_ip
