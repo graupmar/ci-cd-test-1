@@ -18,6 +18,7 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p /tmp/workspace
+      - run: yum install -y tar
       - run:
           name: get ip
           command: |
