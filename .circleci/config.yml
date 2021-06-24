@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   create_infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: amazon/aws-cli:latest
     steps:
       - checkout
       - run:
@@ -17,10 +17,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apt install tar
       - run: mkdir -p /tmp/workspace
       - run:
           name: get ip
