@@ -15,9 +15,12 @@ jobs:
   get_ip_adr:
     docker:
       - image: amazon/aws-cli
-    #working_directory: /tmp
     steps:
-      #- checkout
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update tar # install the dependencies needed for your playbook
       - run: mkdir -p /tmp/workspace
       - run:
           name: get ip
@@ -53,7 +56,6 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - install aws/cli
       - add_ssh_keys:
           fingerprints: ["d9:82:7d:1a:04:a1:ab:48:35:9d:27:ef:3b:b1:88:ab"] # You can get this ID in the section where you registered the SSH Key
       - run:
