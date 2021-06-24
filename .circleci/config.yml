@@ -29,9 +29,9 @@ jobs:
               --output text >> /tmp/workspace/inventory.txt
             cat /tmp/workspace/inventory.txt
       - persist_to_workspace:
-        root: /tmp/workspace
-      #  paths:
-      #    - inventory.txt
+          root: /tmp/workspace
+          paths:
+            - inventory.txt
 
   #test_ip:
   #  docker:
