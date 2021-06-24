@@ -17,10 +17,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update tar # install the dependencies needed for your playbook
+      #- run:
+      #    name: Install dependencies
+      #    command: |
+      #      apk add --update tar # install the dependencies needed for your playbook
       - run: mkdir -p /tmp/workspace
       - run:
           name: get ip
