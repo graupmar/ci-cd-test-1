@@ -64,23 +64,23 @@ jobs:
             ansible-playbook -i /tmp/workspace/inventory.txt app/main-remote.yml
 
   smoke_test:
-      docker:
-        - image: alpine:latest
-      steps:
-      - attach_workspace:
-          at: /tmp/workspace
-        - run: apk add --update curl
-        - run:
-            name: smoke test.
-            command: |
-              URL="http://`tail -1 /tmp/workspace/inventory.txt`
-              #URL="https://blog.udacity.com/"
-              if curl -s --head ${URL}
-              then
-               return 0
-              else
-               return 1
-              fi
+    docker:
+      - image: alpine:latest
+    steps:
+    - attach_workspace:
+        at: /tmp/workspace
+      - run: apk add --update curl
+      - run:
+          name: smoke test.
+          command: |
+            URL="http://`tail -1 /tmp/workspace/inventory.txt`
+            #URL="https://blog.udacity.com/"
+            if curl -s --head ${URL}
+            then
+              return 0
+            else
+              return 1
+            fi
 workflows:
   my_workflow:
     jobs:
