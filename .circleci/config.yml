@@ -28,10 +28,10 @@ jobs:
               --filters "Name=tag:Name,Values=ci-cd-test-1-CICDInstance" \
               --output text >> /tmp/inventory
             cat /tmp/inventory
-      #- persist_to_workspace:
-      #  root: workspace
-      #  paths:
-      #    - inventory
+      - persist_to_workspace:
+        root: workspace
+        paths:
+          - inventory
 
   #test_ip:
   #  docker:
