@@ -18,8 +18,8 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p /tmp/workspace
-      - run: yum install -y tar
-      - run: yum install -y gzip
+      - run: yum install -y tar #need this for workspace
+      - run: yum install -y gzip #need this for workspace
       - run:
           name: get ip
           command: |
@@ -34,20 +34,16 @@ jobs:
           paths:
             - inventory.txt
 
-  #test_ip:
-  #  docker:
-  #    - image: amazon/aws-cli
-  #  steps:
-  #    - checkout
-  #    - attach_workspace:
-  #      at: /tmp/workspace
-  #    - run:
-  #        command: |
-  #          cat /tmp/workspace/inventory
-  #    - persist_to_workspace:
-  #      root: /workspace
-  #      paths:
-  #        - inventory
+  test_ip:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - attach_workspace:
+        at: /tmp/workspace
+      - run:
+          command: |
+            cat /tmp/workspace/inventory
 
   configure_infrastructure:
     docker:
@@ -69,5 +65,5 @@ workflows:
     jobs:
       #- create_infrastructure
       - get_ip_adr
-      #- test_ip
+      - test_ip
       #- configure_infrastructure
