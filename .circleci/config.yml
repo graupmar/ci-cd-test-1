@@ -50,6 +50,8 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       - add_ssh_keys:
           fingerprints: ["d9:82:7d:1a:04:a1:ab:48:35:9d:27:ef:3b:b1:88:ab"] # You can get this ID in the section where you registered the SSH Key
       - run:
@@ -59,7 +61,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i inventory.txt playbook.yml
+            ansible-playbook -i /tmp/workspace/inventory.txt playbook.yml
 workflows:
   my_workflow:
     jobs:
