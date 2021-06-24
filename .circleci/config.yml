@@ -73,7 +73,8 @@ jobs:
       - run:
           name: smoke test.
           command: |
-            URL="http://"`tail -1 /tmp/workspace/inventory.txt`
+            URL="http://"`tail -1 /tmp/workspace/inventory.txt`":3000"
+            echo ${URL}
             #URL="https://blog.udacity.com/"
             if curl -s --head ${URL}
             then
