@@ -28,8 +28,8 @@ jobs:
               --filters "Name=tag:Name,Values=ci-cd-test-1-CICDInstance" \
               --output text >> /tmp/workspace/inventory.txt
             cat /tmp/workspace/inventory.txt
-      #- persist_to_workspace:
-      #  root: /tmp/workspace
+      - persist_to_workspace:
+        root: /tmp/workspace
       #  paths:
       #    - inventory.txt
 
