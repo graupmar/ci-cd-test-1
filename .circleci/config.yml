@@ -12,6 +12,24 @@ jobs:
             aws cloudformation deploy \
               --template-file ec2.yml \
               --stack-name ci-cd-test-1
+  get_ip_adr:
+     docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: get ip
+          command: |
+            echo "[all]" > /tmp/inventory
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:Name,Values=ci-cd-test-1-CICDInstance" \
+              --output text >> /tmp/inventory
+      - persist_to_workspace:
+        root: tmp
+        paths:
+          - inventory
+
   configure_infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -21,20 +39,16 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["d9:82:7d:1a:04:a1:ab:48:35:9d:27:ef:3b:b1:88:ab"] # You can get this ID in the section where you registered the SSH Key
       - run:
-          name: get IP from EC2
+          name: Install dependencies
           command: |
-              echo "export x=`aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress'  --filters \
-                "Name=tag:Name,Values=ci-cd-test-1-CICDInstance"  --output text `" >> $BASH_ENV
-      #- run:
-      #    name: Install dependencies
-      #    command: |
-      #      apk add --update ansible # install the dependencies needed for your playbook
-      #- run:
-      #    name: Configure server
-      #    command: |
-      #      ansible-playbook -i inventory.txt playbook.yml
+            apk add --update ansible # install the dependencies needed for your playbook
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory.txt playbook.yml
 workflows:
   my_workflow:
     jobs:
       #- create_infrastructure
-      - configure_infrastructure
+      - get_ip_adr
+      #- configure_infrastructure
