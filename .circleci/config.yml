@@ -43,7 +43,7 @@ jobs:
           at: /tmp/workspace
       - run:
           command: |
-            cat /tmp/workspace/inventory
+            cat /tmp/workspace/inventory.txt
 
   configure_infrastructure:
     docker:
