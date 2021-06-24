@@ -22,16 +22,16 @@ jobs:
       - run:
           name: get ip
           command: |
-            echo "[all]" > /tmp/workspace/inventory
+            echo "[all]" > /tmp/workspace/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:Name,Values=ci-cd-test-1-CICDInstance" \
-              --output text >> /tmp/workspace/inventory
-            cat /tmp/workspace/inventory
+              --output text >> /tmp/workspace/inventory.txt
+            cat /tmp/workspace/inventory.txt
       - persist_to_workspace:
-        root: workspace
+        root: /tmp/workspace
         paths:
-          - inventory
+          - inventory.txt
 
   #test_ip:
   #  docker:
