@@ -12,23 +12,7 @@ jobs:
             aws cloudformation deploy \
               --template-file ec2.yml \
               --stack-name ci-cd-test-1
-  get_ip_adr:
-     docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: get ip
-          command: |
-            echo "[all]" > /tmp/inventory
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:Name,Values=ci-cd-test-1-CICDInstance" \
-              --output text >> /tmp/inventory
-      - persist_to_workspace:
-        root: tmp
-        paths:
-          - inventory
+
 
   configure_infrastructure:
     docker:
