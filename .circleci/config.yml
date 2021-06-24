@@ -15,10 +15,10 @@ jobs:
   get_ip_adr:
     docker:
       - image: amazon/aws-cli
-    #working_directory: /tmp
+    working_directory: /tmp
     steps:
       - checkout
-      #- run: mkdir -p workspace
+      - run: mkdir -p workspace
       - run:
           name: get ip
           command: |
