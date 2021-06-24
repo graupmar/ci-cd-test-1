@@ -13,7 +13,7 @@ jobs:
               --template-file ec2.yml \
               --stack-name ci-cd-test-1
   get_ip_adr:
-     docker:
+    docker:
       - image: amazon/aws-cli
     steps:
       - checkout
