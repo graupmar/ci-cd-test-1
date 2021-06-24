@@ -67,8 +67,8 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-    - attach_workspace:
-        at: /tmp/workspace
+      - attach_workspace:
+          at: /tmp/workspace
       - run: apk add --update curl
       - run:
           name: smoke test.
