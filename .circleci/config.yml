@@ -19,6 +19,7 @@ jobs:
       - checkout
       - run: mkdir -p /tmp/workspace
       - run: yum install -y tar
+      - run: yum install -y gzip
       - run:
           name: get ip
           command: |
