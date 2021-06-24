@@ -33,20 +33,20 @@ jobs:
       #  paths:
       #    - inventory
 
-  test_ip:
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - attach_workspace:
-        at: /tmp/workspace
-      - run:
-          command: |
-            cat /tmp/workspace/inventory
-      - persist_to_workspace:
-        root: /workspace
-        paths:
-          - inventory
+  #test_ip:
+  #  docker:
+  #    - image: amazon/aws-cli
+  #  steps:
+  #    - checkout
+  #    - attach_workspace:
+  #      at: /tmp/workspace
+  #    - run:
+  #        command: |
+  #          cat /tmp/workspace/inventory
+  #    - persist_to_workspace:
+  #      root: /workspace
+  #      paths:
+  #        - inventory
 
   configure_infrastructure:
     docker:
