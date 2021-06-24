@@ -65,7 +65,7 @@ workflows:
     jobs:
       #- create_infrastructure
       - get_ip_adr
-      - test_ip
+      - test_ip:
           requires:
             - get_ip_adr
       #- configure_infrastructure
