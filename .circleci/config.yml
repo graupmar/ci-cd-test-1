@@ -20,14 +20,29 @@ jobs:
       - run:
           name: get ip
           command: |
-            echo "[all]" > /tmp/inventory
+            echo "[all]" > workspace/inventory
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:Name,Values=ci-cd-test-1-CICDInstance" \
-              --output text >> /tmp/inventory
-            cat /tmp/inventory
+              --output text >> workspace/inventory
+            cat workspace/inventory
       - persist_to_workspace:
-        root: /tmp
+        root: workspace
+        paths:
+          - inventory
+
+  test_ip:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - attach_workspace:
+        at: /tmp/workspace
+      - run:
+          command: |
+            cat /tmp/workspace/inventory
+      - persist_to_workspace:
+        root: /workspace
         paths:
           - inventory
 
@@ -52,4 +67,5 @@ workflows:
     jobs:
       #- create_infrastructure
       - get_ip_adr
+      - test_ip
       #- configure_infrastructure
